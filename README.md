@@ -8,6 +8,10 @@ The second goal of Rails ERD is to provide you with a tool to inspect your appli
 
 Rails ERD was created specifically for Rails and works on versions 3.0-4.2. It uses Active Record's built-in reflection capabilities to figure out how your models are associated.
 
+Fork info
+---------
+
+Why the fork?  Apparently, Crystal Commerce core apps extend some fundamental classes, like `Hash`; the extended methods may conflict with the code in RailsERD (e.g., `Hash#only` clashes with RailsEND's options `only="ModeName"`).
 
 Preview
 -------

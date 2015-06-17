@@ -130,7 +130,7 @@ Error occurred while loading application: FooBar (RuntimeError)
   test "options task should set known command line options" do
     ENV["filetype"] = "myfiletype"
     Rake::Task["erd:options"].execute
-    assert_equal :myfiletype, RailsERD.options.filetype
+    assert_equal 'myfiletype', RailsERD.options.filetype
   end
 
   test "options task should set known boolean command line options if false" do
@@ -160,6 +160,6 @@ Error occurred while loading application: FooBar (RuntimeError)
   test "options task should set known array command line options" do
     ENV["attributes"] = "content,timestamps"
     Rake::Task["erd:options"].execute
-    assert_equal [:content, :timestamps], RailsERD.options.attributes
+    assert_equal ['content', 'timestamps'], RailsERD.options.attributes
   end
 end
