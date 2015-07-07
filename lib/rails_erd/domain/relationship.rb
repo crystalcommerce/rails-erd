@@ -20,10 +20,15 @@ module RailsERD
 
         private
 
+        # https://github.com/voormedia/rails-erd/issues/70
         def association_identity(association)
-          identifier = association_identifier(association)
-          Set[identifier, association_owner(association), association_target(association)]
-        end
+          if Rails.env.development?
+            Set[association_owner(association), association_target(association)]
+          else
+            identifier = association_identifier(association)
+            Set[identifier, association_owner(association), association_target(association)]
+          end
+        end        
 
         def association_identifier(association)
           if association.macro == :has_and_belongs_to_many
