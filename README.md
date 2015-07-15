@@ -11,7 +11,25 @@ Rails ERD was created specifically for Rails and works on versions 3.0-4.2. It u
 Fork info
 ---------
 
-Why the fork?  Apparently, Crystal Commerce core apps extend some fundamental classes, like `Hash`; the extended methods may conflict with the code in RailsERD (e.g., `Hash#only` clashes with RailsEND's options `only="ModeName"`).
+Why the fork?  Apparently, Crystal Commerce core apps extend some fundamental classes, like `Hash`; the extended methods may conflict with the code in RailsERD (e.g., `Hash#only` clashes with RailsEND's options `only="ModelName"`).
+
+To use this fork, follow the original instructions (below) and then...
+
+* Add <tt>gem "rails-erd", :github => "crystalcommerce/rails-erd"</tt> to your application's Gemfile
+
+Here are some examples of how to use RailsERD:
+
+Generate diagram for the whole kit and caboodle.
+```
+bin/rake erd filename='core-apps' title='CC Core App Models'
+```
+
+Generate diagram that is limited to the Order model and the indicated related entities.
+```
+bin/rake erd filename='core-apps-order' title='CC Core App Order Model' filetype='pdf' only='Order,Coupon,CreditLog,CouponApplication,CouponRedemption,LineItem,CashDrawerActivity,Product,Variant,Customer,Address,IpAddress,OrderComment,OrderStatusLog,Rate,Referral,Feedback,ReferAFriend,Refund,Funder,SurveyAnswer'
+```
+
+See [below](#configuration) for other options that can be used with RailsERD.
 
 Preview
 -------
