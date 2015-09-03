@@ -31,6 +31,38 @@ bin/rake erd filename='core-apps-order' title='CC Core App Order Model' filetype
 
 See [below](#configuration) for other options that can be used with RailsERD.
 
+CC Notes
+---------
+Special behavior with `core/admin` and other core CC apps: simply running `rake erd:generate` will not pull in all the classes that are under the the `admin/lib` directory.  The Rakefile loads `Admin::Application` which should pull in all the project models, but it's not.  Perhaps the `Rakefile` needs to be tweaked a little to complete the environment setup.  Who knows?
+
+```ruby
+# start Rails console; bin/rails c
+
+# include the rake tasks
+Admin::Application.load_tasks
+
+# if you wish to limit what's actually included...
+# uncomment the lines starting with 'classnames' (6 and 11)
+# classnames = %w{AdditionalStoreLocationPhoto Address Api::V1::Report Api::V1::Webhook BatchUpdate Bill BillItem BulkImport BulkImportRow Carrier CashDrawer CashDrawerActivity ChannelCatalogState ChannelCategoryDefault ContactUsSubmission Coupon CouponApplication CouponRedemption CreditLog CustomShipMethod Customer CustomerField CustomersProduct DailyProductAggregate DesignRequest EndiciaLog Feedback FileReport Frontend::Theme Funder Import IpAddress LineItem Message NewsPost Notification Order OrderComment OrderReport OrderStatusCount OrderStatusLog OverriddenProductAttribute PackagingPreset Page PaymentSources::Base PaypalIpn Pref ProgressStep Rate RateModifier ReferAFriend Referral Refund RssFeed ShippingBlacklist SisterSiteCategoryModifier SisterSiteProductModifier StoreLocation SurveyAnswer SurveyQuestion User UserMessage UserPrivilege VariantListing Wishlist Hijacker::EbayAccount AmazonMwsCatalogState AmazonMwsFeedSubmissionItem AmazonMwsListing AmazonMwsOrderItem AmazonMwsState EbayAuction EbayShippingSelection EbayTemplate TcgPlayerState}
+
+options = {:attributes=>:content, :disconnected=>true, :filename=>"erd", :filetype=>:pdf, :indirect=>true, :inheritance=>false, :markup=>true, :notation=>:simple, :orientation=>:horizontal, :polymorphism=>false, :sort=>true, :warn=>true, :title=>true, :exclude=>nil, :only=>nil, :prepend_primary=>false}.merge({
+  filename: 'core-apps-extra', 
+  title: 'CC Core App Models', 
+  # only: classnames, 
+  filetype: 'pdf'
+})
+
+# RailsERD.options is what exists after all pre-proccessing and defaults are applied
+# nothing else will modify RailsERD.options; what you see is what you get
+RailsERD.options.clear
+options.each do |key, value|
+  RailsERD.options[key] = value
+end
+RailsERD.options
+
+Rake::Task['erd:generate'].execute
+```
+
 Preview
 -------
 
